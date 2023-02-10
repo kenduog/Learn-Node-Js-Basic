@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>KenShine</title>
     <link rel="stylesheet" href="/css/style.css">
 </head>
 
@@ -42,7 +42,8 @@
                 <td>
                     <%= dataUser[i].lastName %>
                 </td>
-                <td><a href="/detail/user/<%= dataUser[i].id%>" target="_blank">Details</a>
+                <td>
+                    <a href="/detail/user/<%= dataUser[i].id%>" target="_blank">Details</a>
                     <a href="/edit/user/<%= dataUser[i].id%>" target="_blank">Edit</a>
                     <a href="/delete/user/<%= dataUser[i].id%>" target="_blank">Delete</a>
                 </td>
