@@ -6,7 +6,7 @@ let getHomePage = async (req, res) => {
 };
 let getDetailPage = async (req, res) => {
   let userId = req.params.userId;
-  let [user] = await pool.execute("Select * from users where id = ?", [userId]);
+  let [user] = await pool.execute("select * from users where id = ?", [userId]);
   console.log(user);
   return res.send(JSON.stringify(user));
 };
