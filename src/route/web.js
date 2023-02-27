@@ -7,7 +7,6 @@ let router = express.Router();
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    console.log(">>>>>Check appRoot: ", appRoot);
     cb(null, appRoot + "/src/public/img/");
   },
 
@@ -31,6 +30,11 @@ const imageFilter = function (req, file, cb) {
 
 let upload = multer({ storage: storage, fileFilter: imageFilter });
 
+let uploadMultiple = multer({
+  storage: storage,
+  fileFilter: imageFilter,
+}).array("multiple_images", 3);
+
 const initWebRoute = (app) => {
   router.get("/", homeController.getHomePage);
   router.get("/detail/user/:userId", homeController.getDetailPage);
@@ -45,6 +49,26 @@ const initWebRoute = (app) => {
     "/upload-profile-pic",
     upload.single("profile_pic"),
     homeController.handleUploadFilePage
+  );
+  router.post(
+    "/upload-multiple-images",
+    (req, res, next) => {
+      uploadMultiple(req, res, (err) => {
+        if (
+          err instanceof multer.MulterError &&
+          err.code === "LIMIT_UNEXPECTED_FILE"
+        ) {
+          res.send(
+            `LIMIT_UNEXPECTED_FILE <br><a href="/upload">You can upload again</a>`
+          );
+        } else if (err) {
+          res.send(err);
+        } else {
+          next();
+        }
+      });
+    },
+    homeController.handleUploadMltipleFiles
   );
 
   return app.use("/", router);
